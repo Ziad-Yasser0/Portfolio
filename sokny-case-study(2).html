@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sokny — Case Study</title>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #e8e8d8;
+    --orange: #f5a623;
+    --orange-dark: #e8940f;
+    --green: #2d6a4f;
+    --green-light: #e8f5ee;
+    --black: #111111;
+    --white: #ffffff;
+    --pixel-border: 3px solid #111;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--bg);
+    font-family: 'Space Mono', monospace;
+    color: var(--black);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--white);
+    border-bottom: var(--pixel-border);
+    padding: 14px 40px;
+    display: flex; align-items: center; gap: 16px;
+    position: sticky; top: 0; z-index: 100;
+  }
+  .back-btn {
+    font-family: 'Press Start 2P', monospace; font-size: 8px;
+    background: var(--black); color: var(--white);
+    border: 2px solid var(--black); padding: 9px 14px;
+    cursor: pointer; text-decoration: none;
+    transition: background .2s, color .2s;
+  }
+  .back-btn:hover { background: var(--orange); color: var(--black); border-color: var(--orange); }
+  .nav-logo { width: 44px; height: 44px; border-radius: 50%; overflow: hidden; border: 3px solid var(--black); }
+  .nav-logo img { width:100%; height:100%; object-fit:cover; }
+  .nav-title { font-family: 'Press Start 2P', monospace; font-size: 13px; }
+  .nav-sub { font-size: 11px; color: #555; margin-top: 3px; }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--green);
+    padding: 70px 40px 60px;
+    text-align: center;
+    position: relative;
+    border-bottom: var(--pixel-border);
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 8px;
+    background: repeating-conic-gradient(var(--black) 0% 25%, var(--orange) 0% 50%) 0 0 / 8px 8px;
+  }
+  .hero-tag {
+    display: inline-block; background: var(--orange); color: var(--black);
+    font-family: 'Press Start 2P', monospace; font-size: 8px;
+    padding: 5px 12px; margin-bottom: 24px;
+    border: 2px solid var(--black); box-shadow: 3px 3px 0 var(--black);
+  }
+  .hero h1 {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(32px, 7vw, 64px);
+    color: var(--white); line-height: 1.3; margin-bottom: 20px;
+  }
+  .hero p {
+    color: rgba(255,255,255,0.8); font-size: 15px;
+    max-width: 560px; margin: 0 auto 36px; line-height: 1.8;
+    font-family: 'VT323', monospace; font-size: 20px; letter-spacing: .5px;
+  }
+  .hero-meta {
+    display: flex; justify-content: center; gap: 24px; flex-wrap: wrap;
+  }
+  .meta-pill {
+    background: rgba(255,255,255,0.12); border: 2px solid rgba(255,255,255,0.3);
+    color: var(--white); font-size: 11px; padding: 8px 16px;
+    font-family: 'VT323', monospace; font-size: 16px; letter-spacing: .5px;
+  }
+
+  /* ── MAIN ── */
+  main { max-width: 960px; margin: 0 auto; padding: 60px 32px 0; }
+
+  /* ── SECTION HEADING ── */
+  .sec-label {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'Press Start 2P', monospace; font-size: 9px;
+    color: var(--orange); margin-bottom: 12px; letter-spacing: 1px;
+  }
+  .sec-label::before {
+    content: ''; display: block;
+    width: 20px; height: 3px; background: var(--orange);
+  }
+  .sec-title {
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(20px, 4vw, 32px);
+    line-height: 1.4; margin-bottom: 28px;
+  }
+
+  /* ── OVERVIEW ── */
+  .overview-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 60px;
+  }
+  .overview-card {
+    background: var(--white); border: var(--pixel-border);
+    box-shadow: 4px 4px 0 var(--black); padding: 24px;
+  }
+  .overview-card h3 {
+    font-family: 'Press Start 2P', monospace; font-size: 9px;
+    color: var(--orange); margin-bottom: 12px;
+  }
+  .overview-card p { font-size: 13px; line-height: 1.8; color: #333; }
+
+  /* ── PROBLEM / SOLUTION ── */
+  .ps-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 60px;
+  }
+  .problem-card {
+    background: #111; border: var(--pixel-border);
+    box-shadow: 4px 4px 0 var(--orange); padding: 28px;
+  }
+  .problem-card h3 { font-family: 'Press Start 2P', monospace; font-size: 9px; color: #ff6b6b; margin-bottom: 14px; }
+  .problem-card p { font-size: 13px; line-height: 1.8; color: #ccc; }
+  .solution-card {
+    background: var(--green); border: var(--pixel-border);
+    box-shadow: 4px 4px 0 var(--black); padding: 28px;
+  }
+  .solution-card h3 { font-family: 'Press Start 2P', monospace; font-size: 9px; color: var(--orange); margin-bottom: 14px; }
+  .solution-card p { font-size: 13px; line-height: 1.8; color: rgba(255,255,255,0.85); }
+
+  /* ── RESEARCH PROCESS ── */
+  .research-section { margin-bottom: 60px; }
+  .process-steps {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px;
+  }
+  .step-card {
+    background: var(--white); border: var(--pixel-border);
+    box-shadow: 4px 4px 0 var(--black); padding: 20px 16px; text-align: center;
+    position: relative;
+  }
+  .step-num {
+    display: inline-block; background: var(--orange); color: var(--black);
+    font-family: 'Press Start 2P', monospace; font-size: 10px;
+    width: 32px; height: 32px; line-height: 32px;
+    border: 2px solid var(--black); margin-bottom: 12px;
+  }
+  .step-card h4 { font-family: 'Press Start 2P', monospace; font-size: 8px; margin-bottom: 8px; line-height: 1.6; }
+  .step-card p { font-size: 12px; color: #555; line-height: 1.6; font-family: 'VT323', monospace; font-size: 15px; }
+  .step-arrow {
+    position: absolute; right: -14px; top: 50%;
+    transform: translateY(-50%);
+    width: 0; height: 0;
+    border-top: 8px solid transparent;
+    border-bottom: 8px solid transparent;
+    border-left: 12px solid var(--orange);
+    z-index: 2;
+  }
+
+  /* ── PAIN POINTS ── */
+  .pain-grid {
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 60px;
+  }
+  .pain-card {
+    background: var(--white); border: var(--pixel-border);
+    box-shadow: 4px 4px 0 var(--black); padding: 20px;
+    border-top: 4px solid #ff6b6b;
+  }
+  .pain-icon { font-size: 28px; margin-bottom: 10px; }
+  .pain-card h4 { font-family: 'Press Start 2P', monospace; font-size: 8px; margin-bottom: 8px; line-height: 1.6; }
+  .pain-card p { font-size: 13px; color: #555; line-height: 1.7; font-family: 'VT323', monospace; font-size: 15px; }
+
+  /* ── FEATURES ── */
+  .features-block {
+    background: var(--black); border: var(--pixel-border);
+    box-shadow: 5px 5px 0 var(--orange);
+    padding: 36px 32px; margin-bottom: 60px;
+  }
+  .features-block .sec-title { color: var(--white); }
+  .features-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .feature-item {
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .feature-icon {
+    width: 40px; height: 40px; background: var(--orange);
+    border: 2px solid var(--orange-dark);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px; flex-shrink: 0;
+  }
+  .feature-item h4 { font-family: 'Press Start 2P', monospace; font-size: 8px; color: var(--white); margin-bottom: 6px; line-height: 1.6; }
+  .feature-item p { font-size: 14px; color: #aaa; font-family: 'VT323', monospace; line-height: 1.5; }
+
+  /* ── SCREENS ── */
+  .screens-section { margin-bottom: 60px; }
+  .screens-intro { font-size: 14px; line-height: 1.8; color: #444; margin-bottom: 32px; max-width: 640px; }
+  .screens-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px;
+  }
+  .screen-card {
+    background: var(--white); border: var(--pixel-border);
+    box-shadow: 4px 4px 0 var(--black); overflow: hidden;
+  }
+  .screen-card img { width: 100%; display: block; }
+  .screen-label {
+    padding: 10px 12px;
+    font-family: 'Press Start 2P', monospace; font-size: 7px;
+    line-height: 1.6; color: var(--black);
+    border-top: 2px solid var(--black);
+  }
+
+  /* ── TOOLS ── */
+  .tools-row {
+    display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 60px;
+  }
+  .tool-badge {
+    background: var(--white); border: var(--pixel-border);
+    box-shadow: 3px 3px 0 var(--black);
+    padding: 12px 20px;
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Press Start 2P', monospace; font-size: 9px;
+  }
+  .tool-badge span { font-size: 20px; }
+
+  /* ── TEAM ── */
+  .team-section {
+    background: var(--white); border: var(--pixel-border);
+    box-shadow: 4px 4px 0 var(--black);
+    padding: 32px; margin-bottom: 60px;
+    display: flex; gap: 40px; align-items: center; flex-wrap: wrap;
+  }
+  .team-info h3 { font-family: 'Press Start 2P', monospace; font-size: 10px; margin-bottom: 14px; }
+  .team-members { display: flex; gap: 20px; flex-wrap: wrap; }
+  .member-card {
+    background: var(--bg); border: 2px solid var(--black);
+    padding: 14px 20px; text-align: center;
+  }
+  .member-avatar {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--green); border: 2px solid var(--black);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; margin: 0 auto 10px;
+  }
+  .member-name { font-family: 'Press Start 2P', monospace; font-size: 7px; line-height: 1.8; }
+  .member-role { font-size: 13px; color: #666; margin-top: 4px; font-family: 'VT323', monospace; }
+  .duration-badge {
+    background: var(--orange); border: var(--pixel-border);
+    box-shadow: 3px 3px 0 var(--black);
+    padding: 16px 24px; text-align: center;
+  }
+  .duration-badge .num { font-family: 'Press Start 2P', monospace; font-size: 28px; display: block; margin-bottom: 6px; }
+  .duration-badge .label { font-family: 'Press Start 2P', monospace; font-size: 8px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black); color: var(--white);
+    padding: 40px 32px 24px; text-align: center;
+    border-top: 4px solid var(--orange); position: relative;
+    margin-top: 20px;
+  }
+  footer::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 8px;
+    background: repeating-conic-gradient(var(--black) 0% 25%, var(--orange) 0% 50%) 0 0 / 8px 8px;
+  }
+  .footer-cta { font-family: 'Press Start 2P', monospace; font-size: 13px; margin-bottom: 20px; }
+  .footer-link { color: var(--orange); text-decoration: none; font-family: 'VT323', monospace; font-size: 18px; }
+  .footer-credit { margin-top: 24px; font-size: 12px; color: #888; font-family: 'VT323', monospace; }
+
+  .divider { border: none; border-top: 3px dashed #bbb; margin: 8px 0 52px; }
+  .fade-in { opacity: 0; transform: translateY(22px); transition: opacity .55s, transform .55s; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 680px) {
+    .process-steps, .screens-grid { grid-template-columns: 1fr 1fr; }
+    .ps-grid, .overview-grid, .pain-grid, .features-grid { grid-template-columns: 1fr; }
+    .step-arrow { display: none; }
+    main { padding: 40px 16px 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="ziad-yasser-portfolio.html" class="back-btn">← Back</a>
+  <div class="nav-logo">
+    <img src="Sokny__1_.jpg" alt="Sokny Logo">
+  </div>
+  <div>
+    <div class="nav-title">Sokny</div>
+    <div class="nav-sub">Case Study — UI/UX Design</div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Case Study</div>
+  <h1>Sokny</h1>
+  <p>A real estate marketplace that treats users like people — not walking wallets.</p>
+  <div class="hero-meta">
+    <span class="meta-pill">🗓 1 Month</span>
+    <span class="meta-pill">🎓 DEPI Initiative</span>
+    <span class="meta-pill">👥 2 Designers</span>
+    <span class="meta-pill">🛠 Figma · Photoshop · Illustrator</span>
+  </div>
+</div>
+
+<main>
+
+  <!-- OVERVIEW -->
+  <div class="fade-in" style="margin-top: 8px;">
+    <div class="sec-label">Project Overview</div>
+    <div class="sec-title">What is Sokny?</div>
+    <div class="overview-grid">
+      <div class="overview-card">
+        <h3>The App</h3>
+        <p>Sokny is a general real estate marketplace designed for the Egyptian market. It connects tenants, buyers, and property owners through an experience built on trust, transparency, and user rights — not just listings.</p>
+      </div>
+      <div class="overview-card">
+        <h3>The Mission</h3>
+        <p>To build a platform where both renters and owners feel protected and respected. Sokny puts user needs first — offering verified listings, in-app contracts, and privacy-first communication so no one's personal data is ever exposed.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- PROBLEM & SOLUTION -->
+  <div class="fade-in">
+    <div class="sec-label">The Challenge</div>
+    <div class="sec-title">Problem & Solution</div>
+    <div class="ps-grid">
+      <div class="problem-card">
+        <h3>😤 The Problem</h3>
+        <p>Existing Egyptian real estate apps were built with owners in mind — not users. Listings were unverified, important features were missing, and renters had zero protection. Worse, sharing your phone number meant risking your privacy with strangers.</p>
+      </div>
+      <div class="solution-card">
+        <h3>✅ The Solution</h3>
+        <p>Sokny flips the script. Every listing is verified. Contracts are signed digitally inside the app. Users chat directly with agents without sharing their number. It's real estate done right — for everyone.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- UX RESEARCH PROCESS -->
+  <div class="research-section fade-in">
+    <div class="sec-label">Research</div>
+    <div class="sec-title">UX Research Process</div>
+    <div class="process-steps">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <h4>Stakeholder Interviews</h4>
+        <p>Spoke with property owners, agents, and renters to understand the full ecosystem and each party's needs.</p>
+        <div class="step-arrow"></div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <h4>User Interviews & Surveys</h4>
+        <p>Conducted structured interviews and distributed surveys to gather quantitative and qualitative insights from real users.</p>
+        <div class="step-arrow"></div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <h4>Competitive Analysis</h4>
+        <p>Analyzed existing Egyptian real estate platforms — mapping gaps, missing features, and unmet user expectations.</p>
+        <div class="step-arrow"></div>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <h4>WHM + Brainstorming</h4>
+        <p>Used Why-How-Map and collaborative brainstorming to define the best features and design solutions for each persona.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- USER PERSONAS -->
+  <div class="fade-in" style="margin-bottom: 60px;">
+    <div class="sec-label">Research Output</div>
+    <div class="sec-title">User Personas</div>
+    <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+      <div style="background:var(--white); border:var(--pixel-border); box-shadow:4px 4px 0 var(--black); padding:22px; border-top: 5px solid var(--green);">
+        <div style="font-size:32px; margin-bottom:10px;">🧑‍🎓</div>
+        <div style="font-family:'Press Start 2P',monospace; font-size:8px; margin-bottom:8px; line-height:1.6;">The Renter</div>
+        <p style="font-size:13px; color:#555; line-height:1.7; font-family:'VT323',monospace; font-size:15px;">A young professional or student searching for a safe, fairly priced apartment — frustrated by unverified listings and privacy violations.</p>
+      </div>
+      <div style="background:var(--white); border:var(--pixel-border); box-shadow:4px 4px 0 var(--black); padding:22px; border-top: 5px solid var(--orange);">
+        <div style="font-size:32px; margin-bottom:10px;">🏠</div>
+        <div style="font-family:'Press Start 2P',monospace; font-size:8px; margin-bottom:8px; line-height:1.6;">The Owner</div>
+        <p style="font-size:13px; color:#555; line-height:1.7; font-family:'VT323',monospace; font-size:15px;">A property owner who wants maximum visibility, reliable tenants, and a secure way to manage contracts without paperwork.</p>
+      </div>
+      <div style="background:var(--white); border:var(--pixel-border); box-shadow:4px 4px 0 var(--black); padding:22px; border-top: 5px solid #6b8cff;">
+        <div style="font-size:32px; margin-bottom:10px;">💼</div>
+        <div style="font-family:'Press Start 2P',monospace; font-size:8px; margin-bottom:8px; line-height:1.6;">The Buyer</div>
+        <p style="font-size:13px; color:#555; line-height:1.7; font-family:'VT323',monospace; font-size:15px;">A first-time buyer looking to purchase property — needs detailed info, map context, and verified agent communication.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAIN POINTS -->
+  <div class="fade-in">
+    <div class="sec-label">Key Findings</div>
+    <div class="sec-title">Pain Points Found</div>
+    <div class="pain-grid">
+      <div class="pain-card">
+        <div class="pain-icon">🔒</div>
+        <h4>Privacy Violation</h4>
+        <p>Users were forced to share phone numbers to inquire about listings — exposing them to unsolicited calls and data misuse.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">⚖️</div>
+        <h4>Owner Bias</h4>
+        <p>Existing platforms clearly favored property owners, leaving renters with little protection, no verification, and no legal safety net.</p>
+      </div>
+      <div class="pain-card">
+        <div class="pain-icon">🗺️</div>
+        <h4>Missing Features</h4>
+        <p>No map context, weak filters, no in-app contracts, and no way to check the credibility of listings or agents.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- KEY FEATURES -->
+  <div class="features-block fade-in">
+    <div class="sec-label" style="color:var(--orange);">Design Solutions</div>
+    <div class="sec-title">Key Features Designed</div>
+    <div class="features-grid">
+      <div class="feature-item">
+        <div class="feature-icon">📝</div>
+        <div>
+          <h4>In-App Contracts</h4>
+          <p>Sign rental/purchase contracts digitally inside the app — protecting both tenant and owner legally.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🗺️</div>
+        <div>
+          <h4>Interactive Map</h4>
+          <p>Visual map showing listings and nearby facilities — schools, mosques, malls, transit — for informed decisions.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">💬</div>
+        <div>
+          <h4>Direct In-App Chat</h4>
+          <p>Contact agents directly through the app — no phone number sharing, full privacy guaranteed.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">🔍</div>
+        <div>
+          <h4>Smart Filters</h4>
+          <p>Rich filtering tailored to each user type — rent, buy, near me, student housing — with precise results.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">✅</div>
+        <div>
+          <h4>Verified Listings</h4>
+          <p>Every listing goes through a verification process so users can trust what they see before they visit.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-icon">👤</div>
+        <div>
+          <h4>Role-Based Onboarding</h4>
+          <p>Users choose their role — Tenant, Buyer, or Owner — and get a tailored experience from day one.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- SCREENS -->
+  <div class="screens-section fade-in">
+    <div class="sec-label">UI Design</div>
+    <div class="sec-title">App Screens</div>
+    <p class="screens-intro">The UI was designed in Figma with a clean, trustworthy aesthetic. Arabic-first layout, accessible typography, and a calming green palette convey safety and reliability — values at Sokny's core.</p>
+    <div class="screens-grid">
+      <div class="screen-card">
+        <img src="Screenshot_2026-03-11_223806.png" alt="Role Selection & Sign Up">
+        <div class="screen-label">Role Selection & Sign Up</div>
+      </div>
+      <div class="screen-card">
+        <img src="Screenshot_2026-03-11_223822.png" alt="Home — Verified Listings">
+        <div class="screen-label">Home — Verified Listings</div>
+      </div>
+      <div class="screen-card">
+        <img src="Screenshot_2026-03-11_223837.png" alt="Owner Dashboard">
+        <div class="screen-label">Owner Dashboard</div>
+      </div>
+      <div class="screen-card">
+        <img src="Screenshot_2026-03-11_223852.png" alt="Owner Profile & Reviews">
+        <div class="screen-label">Owner Profile & Reviews</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- TOOLS -->
+  <div class="fade-in">
+    <div class="sec-label">Tools Used</div>
+    <div class="sec-title">Design Stack</div>
+    <div class="tools-row">
+      <div class="tool-badge"><span>🎨</span> Figma</div>
+      <div class="tool-badge"><span>🖼️</span> Adobe Photoshop</div>
+      <div class="tool-badge"><span>✏️</span> Adobe Illustrator</div>
+    </div>
+  </div>
+
+  <!-- TEAM -->
+  <div class="fade-in">
+    <div class="sec-label">The Team</div>
+    <div class="sec-title">Who Built It</div>
+    <div class="team-section">
+      <div class="duration-badge">
+        <span class="num">1</span>
+        <span class="label">Month</span>
+      </div>
+      <div class="team-info">
+        <h3>Designed for DEPI Initiative</h3>
+        <div class="team-members">
+          <div class="member-card">
+            <div class="member-avatar">Z</div>
+            <div class="member-name">Ziad Yasser</div>
+            <div class="member-role">UI/UX Designer</div>
+          </div>
+          <div class="member-card">
+            <div class="member-avatar">M</div>
+            <div class="member-name">Mohamed Abdelazim</div>
+            <div class="member-role">UI/UX Designer</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-cta">Want to see more?</div>
+  <a href="ziad-yasser-portfolio.html" class="footer-link">← Back to Portfolio</a>
+  <br><br>
+  <a href="https://record-topaz-24245217.figma.site" target="_blank" class="footer-link" style="font-size:15px;">🔗 View Live Prototype on Figma →</a>
+  <div class="footer-credit">Sokny Case Study · Ziad Yasser · 2025</div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>
